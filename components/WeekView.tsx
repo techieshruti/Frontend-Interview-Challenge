@@ -15,6 +15,7 @@
 'use client';
 
 import type { Appointment, Doctor } from '@/types';
+import {MOCK_PATIENTS} from '@/data/mockData'
 
 interface WeekViewProps {
   appointments: Appointment[];
@@ -114,52 +115,53 @@ export function WeekView({ appointments, doctor, weekStartDate }: WeekViewProps)
       {/* Week grid - may need horizontal scroll on mobile */}
       <div className="border border-gray-200 rounded-lg overflow-x-auto">
         {/* TODO: Implement the week grid */}
-        <div className="text-center text-gray-500 py-12">
-          <p>Week View Grid Goes Here</p>
-          <p className="text-sm mt-2">
-            Implement 7-day grid (Mon-Sun) with time slots
-          </p>
-
-          {/* Placeholder to show appointments exist */}
-          {appointments.length > 0 && (
-            <div className="mt-4">
-              <p className="text-sm font-medium">
-                {appointments.length} appointment(s) for this week
-              </p>
-            </div>
-          )}
-        </div>
 
         {/* TODO: Replace above with actual grid implementation */}
-        {/* Example structure:
+        
         <table className="min-w-full">
           <thead>
             <tr>
               <th className="w-20 p-2 text-xs bg-gray-50">Time</th>
               {weekDays.map((day, index) => (
                 <th key={index} className="p-2 text-xs bg-gray-50 border-l">
-                  <div className="font-semibold">{format(day, 'EEE')}</div>
-                  <div className="text-gray-600">{format(day, 'MMM d')}</div>
+                  <div className="font-semibold">{day.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                  <div className="text-gray-600">{day.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+         </div>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody>
-            {timeSlots.map((slot, slotIndex) => (
-              <tr key={slotIndex} className="border-t">
-                <td className="p-2 text-xs text-gray-600">{slot.label}</td>
-                {weekDays.map((day, dayIndex) => (
-                  <td key={dayIndex} className="p-1 border-l align-top min-h-[60px]">
-                    {getAppointmentsForDayAndSlot(day, slot.start).map(apt => (
-                      <AppointmentCard key={apt.id} appointment={apt} compact />
-                    ))}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        */}
+           <tbody>
+    {timeSlots.map((slot, slotIndex) => (
+      <tr key={slotIndex} className="border-t">
+        <td className="p-2 text-xs text-gray-600">{slot.label}</td>
+        {weekDays.map((day, dayIndex) => {
+          // Create a Date object for the start of this slot on this day
+          const slotStart = new Date(day);
+          slotStart.setHours(slot.hour, slot.minute, 0, 0);
+          return (
+            <td key={dayIndex} className="p-1 border-l align-top min-h-[60px]">
+              {getAppointmentsForDayAndSlot(day, slotStart).map((apt) => (
+                <div
+                  key={apt.id}
+                  className={`p-1 mb-1 rounded text-xs ${
+                    apt.type === 'consultation'
+                      ? 'bg-blue-100 text-blue-800'
+                      : apt.type === 'procedure'
+                      ? 'bg-red-100 text-red-800'
+                      : 'bg-green-100 text-green-800'
+                  }`}
+                >
+                  {MOCK_PATIENTS.find(p => p.id === apt.patientId)?.name ?? 'Unknown Patient'}
+                </div>
+              ))}
+            </td>
+          );
+        })}
+      </tr>
+    ))}
+  </tbody>
+  </table>
       </div>
 
       {/* Empty state */}
