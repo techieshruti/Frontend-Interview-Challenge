@@ -19,6 +19,7 @@ import type { Doctor } from '@/types';
 import {MOCK_DOCTORS} from '@/data/mockData'
 
 interface DoctorSelectorProps {
+  doctors: Doctor[]; // Added this line to include the doctors prop
   selectedDoctorId: string;
   onDoctorChange: (doctorId: string) => void;
 }
@@ -37,18 +38,19 @@ interface DoctorSelectorProps {
  * - Should this be a reusable component?
  */
 export function DoctorSelector({
+  doctors,
   selectedDoctorId,
   onDoctorChange,
 }: DoctorSelectorProps) {
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [fetchedDoctors, setFetchedDoctors] = useState<Doctor[]>([]); // Renamed state variable
 
   // TODO: Fetch doctors
   useEffect(() => {
-   setDoctors(MOCK_DOCTORS);
-  }, []);
+    setFetchedDoctors(doctors); // Updated to use the renamed state variable
+  }, [doctors]);
 
   // Find currently selected doctor for display
-  const selectedDoctor = doctors.find((d) => d.id === selectedDoctorId);
+  const selectedDoctor = fetchedDoctors.find((d) => d.id === selectedDoctorId); // Updated to use the renamed state variable
 
   return (
     <div className="doctor-selector">
@@ -65,7 +67,7 @@ export function DoctorSelector({
       >
         <option value="">Select a doctor...</option>
         {/* TODO: Map over doctors and create options */}
-        {doctors.map((doctor) => (
+        {fetchedDoctors.map((doctor) => (
           <option key={doctor.id} value={doctor.id}>
             {/* TODO: Format display text (e.g., "Dr. Sarah Chen - Cardiology") */}
             Dr. {doctor.name} - {doctor.specialty}
@@ -86,7 +88,7 @@ export function DoctorSelector({
 
       {isOpen && (
         <div className="absolute mt-1 w-full bg-white border rounded-lg shadow-lg">
-          {doctors.map((doctor) => (
+          {fetchedDoctors.map((doctor) => (
             <button
               key={doctor.id}
               className="w-full px-4 py-2 text-left hover:bg-gray-100"

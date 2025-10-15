@@ -18,7 +18,8 @@ import { useState } from 'react';
 import type { CalendarView } from '@/types';
 
 // TODO: Import your components
-// import { DoctorSelector } from './DoctorSelector';
+import { DoctorSelector } from './DoctorSelector';
+import { MOCK_DOCTORS } from '@/data/mockData';
 // import { DayView } from './DayView';
 // import { WeekView } from './WeekView';
 
@@ -74,7 +75,11 @@ export function ScheduleView({
 
           <div className="flex gap-4">
             {/* TODO: Add DoctorSelector component */}
-            <div className="text-sm text-gray-500">Doctor Selector</div>
+            <DoctorSelector
+            doctors={MOCK_DOCTORS}
+            selectedDoctorId={selectedDoctorId}
+            onDoctorChange={onDoctorChange}
+            />
 
             {/* TODO: Add date picker */}
             <div className="text-sm text-gray-500">Date Picker</div>
