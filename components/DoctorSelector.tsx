@@ -52,10 +52,13 @@ export function DoctorSelector({
 
   return (
     <div className="doctor-selector">
-      {/* TODO: Implement the dropdown */}
+      <label htmlFor="doctor-select" className="block mb-2 text-sm font-medium text-gray-700">
+        Select Doctor
+      </label>
 
       {/* Option 1: Native select */}
       <select
+      id='doctos-select'
         value={selectedDoctorId}
         onChange={(e) => onDoctorChange(e.target.value)}
         className="block w-full px-4 py-2 pr-8 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
