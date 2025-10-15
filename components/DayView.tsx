@@ -75,9 +75,11 @@ export function DayView({ appointments, doctor, date }: DayViewProps) {
    * Given a time slot, find all appointments that overlap with it
    */
   function getAppointmentsForSlot(slot: TimeSlot): Appointment[] {
-    // TODO: Implement appointment filtering
-    // Check if appointment.startTime or appointment.endTime falls within the slot
-    return [];
+   return appointments.filter(
+    (apt) =>
+      new Date(apt.startTime)< slot.end &&
+    new Date(apt.endTime) > slot.start
+   );
   }
 
   const timeSlots = generateTimeSlots();
