@@ -48,15 +48,13 @@ export function WeekView({ appointments, doctor, weekStartDate }: WeekViewProps)
    * Starting from weekStartDate, create an array of the next 7 days
    */
   function getWeekDays(): Date[] {
-    // TODO: Implement week days generation
-    // Example:
-    // return [
-    //   new Date(weekStartDate), // Monday
-    //   addDays(weekStartDate, 1), // Tuesday
-    //   ...
-    //   addDays(weekStartDate, 6), // Sunday
-    // ];
-    return [];
+    const days: Date[] = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(weekStartDate);
+    d.setDate(weekStartDate.getDate() + i);
+    days.push(d);
+  }
+  return days;
   }
 
   /**
