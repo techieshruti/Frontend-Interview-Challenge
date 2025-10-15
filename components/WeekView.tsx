@@ -81,8 +81,11 @@ export function WeekView({ appointments, doctor, weekStartDate }: WeekViewProps)
    * TODO: Get appointments for a specific day and time slot
    */
   function getAppointmentsForDayAndSlot(date: Date, slotStart: Date): Appointment[] {
-    // TODO: Filter appointments for this day and time
-    return [];
+    return appointments.filter(
+    (apt) =>
+      new Date(apt.startTime) < new Date(slotStart.getTime() + 30*60*1000) &&
+      new Date(apt.endTime) > slotStart
+  );
   }
 
   const weekDays = getWeekDays();
