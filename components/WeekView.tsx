@@ -44,8 +44,6 @@ interface WeekViewProps {
 export function WeekView({ appointments, doctor, weekStartDate }: WeekViewProps) {
   /**
    * TODO: Generate array of 7 dates (Monday through Sunday)
-   *
-   * Starting from weekStartDate, create an array of the next 7 days
    */
   function getWeekDays(): Date[] {
     const days: Date[] = [];
@@ -74,7 +72,14 @@ export function WeekView({ appointments, doctor, weekStartDate }: WeekViewProps)
    */
   function getAppointmentsForDay(date: Date): Appointment[] {
     // TODO: Filter appointments that fall on this specific day
-    return [];
+    return appointments.filter((apt) => {
+      const aptDate = new Date(apt.startTime);
+      return(
+        aptDate.getFullYear() === date.getFullYear() &&
+        aptDate.getMonth() === date.getMonth() &&
+        aptDate.getDate() === date.getDate()
+      );
+    });
   }
 
   /**
