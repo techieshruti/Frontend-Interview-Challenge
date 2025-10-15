@@ -13,11 +13,12 @@
 'use client';
 
 import { useState } from 'react';
+import { DoctorSelector } from '@/components/DoctorSelector';
 import { MOCK_DOCTORS } from '@/data/mockData';
 import type { CalendarView } from '@/types';
 
 // TODO: Import your components here
-// import { ScheduleView } from '@/components/ScheduleView';
+import { ScheduleView } from '@/components/ScheduleView';
 
 export default function SchedulePage() {
   const [selectedDoctorId, setSelectedDoctorId] = useState<string>(MOCK_DOCTORS[0].id);
@@ -49,14 +50,14 @@ export default function SchedulePage() {
             <div className="mt-8 text-left max-w-md mx-auto space-y-2">
               <p className="font-semibold text-gray-700">Current State:</p>
               <p className="text-sm">Doctor: {selectedDoctorId}</p>
-              <p className="text-sm">Date: {selectedDate.toLocaleDateString()}</p>
+              <p className="text-sm">Date: {selectedDate.toLocaleDateString('en-US')}</p>
               <p className="text-sm">View: {view}</p>
             </div>
           </div>
         </div>
 
         {/* TODO: Uncomment and use when ScheduleView is implemented */}
-        {/*
+        
         <ScheduleView
           selectedDoctorId={selectedDoctorId}
           selectedDate={selectedDate}
@@ -65,8 +66,7 @@ export default function SchedulePage() {
           onDateChange={setSelectedDate}
           onViewChange={setView}
         />
-        */}
-      </div>
+              </div>
     </main>
   );
 }
