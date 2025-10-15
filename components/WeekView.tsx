@@ -61,8 +61,12 @@ export function WeekView({ appointments, doctor, weekStartDate }: WeekViewProps)
    * TODO: Generate time slots (same as DayView)
    */
   function generateTimeSlots() {
-    // TODO: Implement (can be same as DayView)
-    return [];
+    const slots: { label: string; hour: number; minute: number }[] = [];
+  for (let hour = 8; hour < 18; hour++) {
+    slots.push({ label: `${hour}:00`, hour, minute: 0 });
+    slots.push({ label: `${hour}:30`, hour, minute: 30 });
+  }
+  return slots;
   }
 
   /**
