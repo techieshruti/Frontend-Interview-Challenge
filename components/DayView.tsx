@@ -51,14 +51,22 @@ export function DayView({ appointments, doctor, date }: DayViewProps) {
    * Hint: You can use a loop or date-fns utilities
    */
   function generateTimeSlots(): TimeSlot[] {
-    // TODO: Implement time slot generation
-    // Example structure:
-    // return [
-    //   { start: new Date(...8:00), end: new Date(...8:30), label: '8:00 AM' },
-    //   { start: new Date(...8:30), end: new Date(...9:00), label: '8:30 AM' },
-    //   ...
-    // ];
-    return [];
+    const slots: TimeSlot[] = [];
+    const startHour = 8;
+    const endHour =18;
+    for(let hour = startHour; hour< endHour; hour++){
+      slots.push({
+        start: new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, 0),
+            end: new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, 30),
+            label: '${hour}:00'
+      });
+      slots.push({
+        start: new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, 30),
+            end: new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, +1,0),
+            label: '${hour}:30'
+      });
+    }
+    return slots;
   }
 
   /**
