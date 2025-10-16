@@ -113,55 +113,55 @@ export function WeekView({ appointments, doctor, weekStartDate }: WeekViewProps)
       </div>
 
       {/* Week grid - may need horizontal scroll on mobile */}
-      <div className="border border-gray-200 rounded-lg overflow-x-auto">
-        {/* TODO: Implement the week grid */}
-
-        {/* TODO: Replace above with actual grid implementation */}
-        
-        <table className="min-w-full">
+      <div className="border border-gray-300 rounded-lg overflow-hidden">
+        <table className="table-auto w-full border-collapse border border-gray-300">
           <thead>
-            <tr>
-              <th className="w-20 p-2 text-xs bg-gray-50">Time</th>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-2 text-left">Time</th>
               {weekDays.map((day, index) => (
-                <th key={index} className="p-2 text-xs bg-gray-50 border-l">
-                  <div className="font-semibold">{day.toLocaleDateString('en-US', { weekday: 'short' })}</div>
-                  <div className="text-gray-600">{day.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-         </div>
+                <th key={index} className="border border-gray-300 p-2 text-left">
+                  {day.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
                 </th>
               ))}
             </tr>
           </thead>
-           <tbody>
-    {timeSlots.map((slot, slotIndex) => (
-      <tr key={slotIndex} className="border-t">
-        <td className="p-2 text-xs text-gray-600">{slot.label}</td>
-        {weekDays.map((day, dayIndex) => {
-          // Create a Date object for the start of this slot on this day
-          const slotStart = new Date(day);
-          slotStart.setHours(slot.hour, slot.minute, 0, 0);
-          return (
-            <td key={dayIndex} className="p-1 border-l align-top min-h-[60px]">
-              {getAppointmentsForDayAndSlot(day, slotStart).map((apt) => (
-                <div
-                  key={apt.id}
-                  className={`p-1 mb-1 rounded text-xs ${
-                    apt.type === 'consultation'
-                      ? 'bg-blue-100 text-blue-800'
-                      : apt.type === 'procedure'
-                      ? 'bg-red-100 text-red-800'
-                      : 'bg-green-100 text-green-800'
-                  }`}
-                >
-                  {MOCK_PATIENTS.find(p => p.id === apt.patientId)?.name ?? 'Unknown Patient'}
-                </div>
-              ))}
-            </td>
-          );
-        })}
-      </tr>
-    ))}
-  </tbody>
-  </table>
+          <tbody>
+            {timeSlots.map((slot, slotIndex) => (
+              <tr key={slotIndex}>
+                <td className="border border-gray-300 p-2 text-sm text-gray-600">
+                  {slot.label}
+                </td>
+                {weekDays.map((day, dayIndex) => {
+                  // Create a Date object for the start of this slot on this day
+                  const slotStart = new Date(day);
+                  slotStart.setHours(slot.hour, slot.minute, 0, 0);
+                  return (
+                    <td key={dayIndex} className="border border-gray-300 p-2">
+                      {getAppointmentsForDayAndSlot(day, slotStart).map((apt) => (
+                        <div
+                          key={apt.id}
+                          className={`p-1 mb-1 rounded text-xs ${
+                            apt.type === 'consultation'
+                              ? 'bg-blue-100 text-blue-800'
+                              : apt.type === 'procedure'
+                              ? 'bg-red-100 text-red-800'
+                              : 'bg-green-100 text-green-800'
+                          }`}
+                        >
+                          {MOCK_PATIENTS.find(p => p.id === apt.patientId)?.name ?? 'Unknown Patient'}
+                        </div>
+                      ))}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {/* Empty state */}

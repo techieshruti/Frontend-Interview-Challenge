@@ -34,8 +34,7 @@ export class AppointmentService {
    * TODO: Implement this method
    */
   getAppointmentsByDoctor(doctorId: string): Appointment[] {
-    // TODO: Implement - filter MOCK_APPOINTMENTS by doctorId
-    throw new Error('Not implemented - getAppointmentsByDoctor');
+    return MOCK_APPOINTMENTS.filter((appointment) => appointment.doctorId === doctorId);
   }
 
   /**
@@ -47,9 +46,13 @@ export class AppointmentService {
    * @returns Array of appointments for that doctor on that date
    */
   getAppointmentsByDoctorAndDate(doctorId: string, date: Date): Appointment[] {
-    // TODO: Implement - filter by doctor AND date
-    // Hint: You'll need to compare dates properly (same day, ignoring time)
-    throw new Error('Not implemented - getAppointmentsByDoctorAndDate');
+    return MOCK_APPOINTMENTS.filter((appointment) => {
+      const appointmentDate = new Date(appointment.startTime);
+      return (
+        appointment.doctorId === doctorId &&
+        appointmentDate.toDateString() === date.toDateString()
+      );
+    });
   }
 
   /**
@@ -66,8 +69,14 @@ export class AppointmentService {
     startDate: Date,
     endDate: Date
   ): Appointment[] {
-    // TODO: Implement - filter by doctor AND date range
-    throw new Error('Not implemented - getAppointmentsByDoctorAndDateRange');
+    return MOCK_APPOINTMENTS.filter((appointment) => {
+      const appointmentDate = new Date(appointment.startTime);
+      return (
+        appointment.doctorId === doctorId &&
+        appointmentDate >= startDate &&
+        appointmentDate <= endDate
+      );
+    });
   }
 
   /**

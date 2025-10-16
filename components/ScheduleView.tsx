@@ -14,14 +14,16 @@
 
 'use client';
 
-import { useState } from 'react';
 import type { CalendarView } from '@/types';
+import { DayView } from './DayView';
+import { WeekView } from './WeekView';
+import { getWeekStart } from '@/utils/dateUtils'; // Assuming this utility exists
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 // TODO: Import your components
 import { DoctorSelector } from './DoctorSelector';
-import { MOCK_DOCTORS } from '@/data/mockData';
-// import { DayView } from './DayView';
-// import { WeekView } from './WeekView';
+import { MOCK_APPOINTMENTS, MOCK_DOCTORS } from '@/data/mockData';
 
 interface ScheduleViewProps {
   selectedDoctorId: string;
@@ -53,38 +55,38 @@ export function ScheduleView({
   onDateChange,
   onViewChange,
 }: ScheduleViewProps) {
-  // TODO: Use the useAppointments hook to fetch data
-  // const { appointments, doctor, loading, error } = useAppointments({
-  //   doctorId: selectedDoctorId,
-  //   date: selectedDate,
-  // });
+  // Dynamically fetch the selected doctor based on `selectedDoctorId`
+  const doctor = MOCK_DOCTORS.find((doc) => doc.id === selectedDoctorId);
 
   return (
     <div className="bg-white rounded-lg shadow-lg">
-      {/* TODO: Implement the component structure */}
-
       {/* Header with doctor info and controls */}
       <div className="border-b border-gray-200 p-6">
         <div className="flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold text-gray-900">Doctor Schedule</h2>
-            <p className="text-sm text-gray-600 mt-1">
-              TODO: Display doctor name and specialty
-            </p>
+            {doctor && (
+              <p className="text-sm text-gray-600 mt-1">
+               {doctor.name} - {doctor.specialty}
+              </p>
+            )}
           </div>
 
           <div className="flex gap-4">
-            {/* TODO: Add DoctorSelector component */}
             <DoctorSelector
-            doctors={MOCK_DOCTORS}
-            selectedDoctorId={selectedDoctorId}
-            onDoctorChange={onDoctorChange}
+              doctors={MOCK_DOCTORS}
+              selectedDoctorId={selectedDoctorId}
+              onDoctorChange={onDoctorChange}
             />
 
-            {/* TODO: Add date picker */}
-            <div className="text-sm text-gray-500">Date Picker</div>
+            <div className="text-sm text-gray-500">
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => date && onDateChange(date)}
+                className="border rounded px-2 py-1"
+              />
+            </div>
 
-            {/* TODO: Add view toggle buttons (Day/Week) */}
             <div className="flex gap-2">
               <button
                 className="px-4 py-2 text-sm bg-blue-600 text-white rounded"
@@ -105,16 +107,7 @@ export function ScheduleView({
 
       {/* Calendar View */}
       <div className="p-6">
-        {/* TODO: Conditionally render DayView or WeekView based on view prop */}
-        <div className="text-center text-gray-500 py-12">
-          <p>Calendar View Goes Here</p>
-          <p className="text-sm mt-2">
-            Implement DayView and WeekView components and render based on selected view
-          </p>
-        </div>
-
-        {/* TODO: Uncomment when components are ready */}
-        {/* {view === 'day' ? (
+        {view === 'day' ? (
           <DayView
             appointments={appointments}
             doctor={doctor}
@@ -126,8 +119,12 @@ export function ScheduleView({
             doctor={doctor}
             weekStartDate={getWeekStart(selectedDate)}
           />
-        )} */}
+        )}
       </div>
     </div>
   );
 }
+
+// Use mock data for appointments and doctor
+const appointments = MOCK_APPOINTMENTS;
+const doctor = MOCK_DOCTORS[0];

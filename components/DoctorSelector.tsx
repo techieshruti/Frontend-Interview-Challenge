@@ -60,7 +60,7 @@ export function DoctorSelector({
 
       {/* Option 1: Native select */}
       <select
-      id='doctos-select'
+      id='doctor-select'
         value={selectedDoctorId}
         onChange={(e) => onDoctorChange(e.target.value)}
         className="block w-full px-4 py-2 pr-8 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -70,7 +70,7 @@ export function DoctorSelector({
         {fetchedDoctors.map((doctor) => (
           <option key={doctor.id} value={doctor.id}>
             {/* TODO: Format display text (e.g., "Dr. Sarah Chen - Cardiology") */}
-            Dr. {doctor.name} - {doctor.specialty}
+           {doctor.name} - {doctor.specialty}
           </option>
         ))}
       </select>
